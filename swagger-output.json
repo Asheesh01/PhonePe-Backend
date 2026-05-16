@@ -1,0 +1,32 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "PhonePe BE System API",
+    "version": "1.0.0",
+    "description": "API documentation for the PhonePe Backend System built with MERN stack"
+  },
+
+  "servers": [
+    {
+      "url": "http://localhost:3000/api",
+      "description": "Local development server"
+    }
+  ],
+
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Register a new user",
+        "responses": {
+          "200": {
+            "description": "sever is successfully"
+          },
+
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    }
+  }
+}
