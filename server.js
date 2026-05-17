@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/auth", authRoute);
-app.use('api/transaction',tansactionRoutes)
+app.use('/api/transaction',tansactionRoutes)
 app.use('api/docs', swaggerui.serve, swaggerui.setup(swaggerDocument));
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
