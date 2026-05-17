@@ -14,6 +14,24 @@ const transactionSchema=new mongoose.Schema({
     amount:{
         type:Number,
         required:true
+    },
+    billerName:{
+        type:String,
+        required:false
+    },
+    types:{
+        type:String,
+        enum:['TRANSFER','ADDMONEY','BILLPAYMENT','WITHDRAWL','DEPOSIT'],
+        required:true
+    },
+    status:{
+        type:String,
+        enum:['PENDING','FAILED','COMPLETED'],
+        default:'PENDING'
+    },
+    timestamp:{
+        type:Date,
+        default:Date.now
     }
 })
 
