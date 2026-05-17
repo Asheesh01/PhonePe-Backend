@@ -6,7 +6,7 @@ const transactionSchema=new mongoose.Schema({
         ref:'User',
         required:true
     },
-     sender:{
+     reciever:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
         required:true
