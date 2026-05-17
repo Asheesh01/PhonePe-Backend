@@ -102,7 +102,7 @@ const setupMpin = async (req, res) => {
     }
     const salt = await bcrpt.genSalt(10);
     const hashMpin = await bcrpt.hash(mpin, salt);
-    const user = await User.findByIdAndUpdate(req.user._id, { mpin: hashMpin }, { new: true });
+    const user = await User.findByIdAndUpdate(req.user.id, { mpin: hashMpin }, { new: true });
     if (user) {
         return res.status(200).json({
             messaege: "Mpin has setup successfully"
@@ -116,7 +116,7 @@ const setupMpin = async (req, res) => {
 }
 
 const getUserProfile = async (req, res) => {
-    const user = await User.findById(req.user._id).select('-password -mpin');
+    const user = await User.findById(req.user.id).select('-password -mpin');
     if (user) {
         return res.status(200).json({
             user

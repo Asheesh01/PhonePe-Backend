@@ -6,6 +6,7 @@ const app = express();
 const cors = require("cors")
 const bcrypt = require("bcryptjs")
 const authRoute = require('./src/routes/authRoute')
+const tansactionRoutes=require('./src/routes/transactionroute')
 const swaggerui = require('swagger-ui-express')
 const connectDb = require('./src/config/db')
 const port = process.env.PORT || 5000;
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/auth", authRoute);
+app.use('api/transaction',tansactionRoutes)
 app.use('api/docs', swaggerui.serve, swaggerui.setup(swaggerDocument));
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
