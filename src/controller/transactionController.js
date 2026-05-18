@@ -76,38 +76,66 @@ const getTransactionHistory = async (req, res) => {
 }
 const addMoney = async (req, res) => {
     try {
-        const {amount, mpin }=req.body;
-    const userId = req.user.id;
-    const user=await User.findById(userId);
-    if (!user) {
-        return res.status(400).json({
-            message: "Invalid User"
+        const { amount, mpin} = req.body;
+        if (amount <= 0) {
+            return res.status(400).json({
+                message: "Amount must be greater than zero"
+            });
+        }
+        const userId = req.user.id;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(400).json({
+                message: "Invalid User"
+            })
+        }
+        const verifympn = await bcrypt.compare(mpin, user.mpin);
+        if (!verifympn) {
+            return res.status(400).json({
+                message: "Incorrect Mpin"
+            })
+        }
+        user.balance += Number(amount);
+        await user.save();
+        const transaction = await Transaction.create({
+            sender: user._id,
+            reciever: user._id,
+            amount,
+            balance:user.balance,
+            types: 'DEPOSIT',
+            status: 'COMPLETED'
         })
-    }
-    const verifympn = await bcrypt.compare(mpin, user.mpin);
-    if (!verifympn) {
-        return res.status(400).json({
-            message: "Incorrect Mpin"
+        res.json({
+            message: "amount added to your accunt", transaction
         })
-    }
-    user.balance += amount;
-    const transaction = await Transaction.create({
-        sender: user._id,
-        amount,
-        types: 'TRANSFER',
-        status: 'COMPLETED'
-    })
-    res.json({
-        message: "amount added to your accunt", transaction
-    })
     } catch (error) {
         res.status(500).json({
             message: error.message
         })
     }
 }
+
+const checkAmount=async(req,res)=>{
+    try {
+        const userId=req.user.id;
+    const user=await User.findById(userId);
+    if(!user){
+        return res.status(500).json({
+            message:"User Not Found"
+        })
+    }
+    return res.status(200).json({
+        balance:user.balance
+    })
+    } catch (error) {
+        return res.status(500).json({
+            message:error.message
+        })
+    }
+}
 module.exports = {
     sendMoney,
     getTransactionHistory,
-    addMoney
+    addMoney,
+    checkAmount
 }

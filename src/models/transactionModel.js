@@ -29,6 +29,9 @@ const transactionSchema=new mongoose.Schema({
         enum:['PENDING','FAILED','COMPLETED'],
         default:'PENDING'
     },
+    balance: {
+    type: Number
+},
     timestamp:{
         type:Date,
         default:Date.now
