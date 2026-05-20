@@ -62,12 +62,12 @@ const sendMoney = async (req, res) => {
 }
 const getTransactionHistory = async (req, res) => {
     try {
-        const userID = req.user._id;
+        const userID = req.user.id;
         const transaction = await Transaction.find({
-            $or: [{ sender: userID }, { reciever: senderId }]
+            $or: [{ sender: userID }, { reciever: userID }]
         }).populate('sender', 'name email phone').populate('reciever', 'name email phone')
             .sort({ timestamp: -1 });
-        res.json({ transacrion });
+        res.json({ transaction });
     } catch (error) {
         res.status(500).json({
             message: error.message
